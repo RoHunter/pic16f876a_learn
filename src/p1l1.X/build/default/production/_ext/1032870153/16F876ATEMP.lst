@@ -1,4 +1,4 @@
-MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:37:34         PAGE  1
+MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:52:51         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00041 
                       00042 
                       00043 
-MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:37:34         PAGE  2
+MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:52:51         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -78,94 +78,102 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00056 
                       00057 ;**********************************************************************
                       00058         ORG     0x000             ; processor reset vector
-                      00059 
-0000   0000           00060         nop                       ; nop required for icd
-0001   2???           00061         goto    main              ; go to beginning of program
-                      00062 
-                      00063 
-                      00064         ORG     0x004             ; interrupt vector location
-                      00065 
-0004   00FD           00066         movwf   w_temp            ; save off current W register contents
-0005   0803           00067         movf    STATUS,w          ; move status register into W register
-0006   00FE           00068         movwf   status_temp       ; save off contents of STATUS register
-0007   080A           00069         movf    PCLATH,w          ; move pclath register into w register
-0008   00FF           00070         movwf   pclath_temp       ; save off contents of PCLATH register
-                      00071 
-                      00072 ; isr code can go here or be located as a call subroutine elsewhere
-                      00073 
-0009   087F           00074         movf    pclath_temp,w     ; retrieve copy of PCLATH register
-000A   008A           00075         movwf   PCLATH            ; restore pre-isr PCLATH register contents
-000B   087E           00076         movf    status_temp,w     ; retrieve copy of STATUS register
-000C   0083           00077         movwf   STATUS            ; restore pre-isr STATUS register contents
-000D   0EFD           00078         swapf   w_temp,f
-000E   0E7D           00079         swapf   w_temp,w          ; restore pre-isr W register contents
-000F   0009           00080         retfie                    ; return from interrupt
-                      00081 
-                      00082 
-                      00083 
-0010                  00084 main ; remaining code goes here
-0010   1683 1303      00085         BANKSEL TRISC
-0012   3000           00086         MOVLW 0X00
+                      00059  CBLOCK 0x20 
+  00000020            00060  cnt1 
+  00000021            00061  cnt2     
+                      00062  ENDC 
+                      00063  
+                      00064  
+0000   0000           00065         nop                       ; nop required for icd
+0001   2???           00066         goto    main              ; go to beginning of program
+                      00067 
+                      00068 
+                      00069         ORG     0x004             ; interrupt vector location
+                      00070 
+0004   00FD           00071         movwf   w_temp            ; save off current W register contents
+0005   0803           00072         movf    STATUS,w          ; move status register into W register
+0006   00FE           00073         movwf   status_temp       ; save off contents of STATUS register
+0007   080A           00074         movf    PCLATH,w          ; move pclath register into w register
+0008   00FF           00075         movwf   pclath_temp       ; save off contents of PCLATH register
+                      00076 
+                      00077 ; isr code can go here or be located as a call subroutine elsewhere
+                      00078 
+0009   087F           00079         movf    pclath_temp,w     ; retrieve copy of PCLATH register
+000A   008A           00080         movwf   PCLATH            ; restore pre-isr PCLATH register contents
+000B   087E           00081         movf    status_temp,w     ; retrieve copy of STATUS register
+000C   0083           00082         movwf   STATUS            ; restore pre-isr STATUS register contents
+000D   0EFD           00083         swapf   w_temp,f
+000E   0E7D           00084         swapf   w_temp,w          ; restore pre-isr W register contents
+000F   0009           00085         retfie                    ; return from interrupt
+                      00086 
+                      00087 
+                      00088 
+0010                  00089 main ; remaining code goes here
+0010   1683 1303      00090         BANKSEL TRISC
+0012   3000           00091         MOVLW 0X00
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0013   0087           00087         MOVWF TRISC
-Message[313]: CBLOCK constants will start with a value of 0.
-                      00088         cblock
-  00000000            00089         d1
-  00000001            00090         d2
-  00000002            00091         d3
-                      00092         endc
-                      00093 
-                      00094                         ;5000000 cycles
-MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:37:34         PAGE  3
+0013   0087           00092         MOVWF TRISC
+                      00093         cblock
+  00000022            00094         d1
+  00000023            00095         d2
+MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:52:51         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0014   302D           00095         movlw   0x2D
-0015   0080           00096         movwf   d1
-0016   30E7           00097         movlw   0xE7
-0017   0081           00098         movwf   d2
-0018   300B           00099         movlw   0x0B
-0019   0082           00100         movwf   d3
-                      00101 
-                      00102         
-                      00103         
-                      00104         
-                      00105 
-001A                  00106 loop1
-001A   1283 1303      00107         BANKSEL PORTC
-001C   1607           00108         BSF PORTC,4
-001D   1687           00109         BSF PORTC,5
-001E   1707           00110         BSF PORTC,6
-001F   1787           00111         BSF PORTC,7
-0020   2???           00112         goto Delay
-0021   1207           00113         BCF PORTC,4
-0022   1287           00114         BCF PORTC,5
-0023   1307           00115         BCF PORTC,6
-0024   1387           00116         BCF PORTC,7
-0025   2???           00117         goto Delay
-                      00118         
-                      00119         
+  00000024            00096         d3
+                      00097         endc
+                      00098 
+                      00099                         ;5000000 cycles
+0014   302D           00100         movlw   0x2D
+0015   00A2           00101         movwf   d1
+0016   30E7           00102         movlw   0xE7
+0017   00A3           00103         movwf   d2
+0018   300B           00104         movlw   0x0B
+0019   00A4           00105         movwf   d3
+                      00106 
+                      00107         
+                      00108         
+                      00109         
+                      00110 
+001A                  00111 loop1
+001A   1283 1303      00112         BANKSEL PORTC
+001C   1607           00113         BSF PORTC,4
+001D   1687           00114         BSF PORTC,5
+001E   1307           00115         BCF PORTC,6
+001F   1387           00116         BCF PORTC,7
+0020   2???           00117         call Delay
+0021   2???           00118         call Delay
+0022   2???           00119         call Delay
+0023   1207           00120         BCF PORTC,4
+0024   1287           00121         BCF PORTC,5
+0025   1707           00122         BSF PORTC,6
+0026   1787           00123         BSF PORTC,7
+0027   2???           00124         call Delay
+0028   2???           00125         call Delay
+0029   2???           00126         call Delay
+                      00127         
+                      00128         
 Warning[203]: Found opcode in column 1. (goto)
-0026   2???           00120 goto loop1      
-                      00121 
-                      00122         
-                      00123 
-0027                  00124 Delay
-0027   0B80           00125         decfsz  d1, f
-0028   2???           00126         goto    $+2
-0029   0B81           00127         decfsz  d2, f
-002A   2???           00128         goto    $+2
-002B   0B82           00129         decfsz  d3, f
-002C   2???           00130         goto    Delay
+002A   2???           00129 goto loop1      
+                      00130 
+                      00131         
 Warning[203]: Found opcode in column 1. (goto)
-002D   2???           00131 goto main
-                      00132 
+002B   2???           00132 goto main
                       00133 
-                      00134 
-3F3A                  00135         END                       ; directive 'end of program'
-MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:37:34         PAGE  4
+Warning[207]: Found label after column 1. (Delay)
+002C                  00134  Delay     ; proedura ce face o intirziere     
+Message[305]: Using default destination of 1 (file).
+002C   0BA0           00135     decfsz  cnt1     
+002D   2???           00136     goto    Delay  
+Message[305]: Using default destination of 1 (file).
+002E   0BA1           00137     decfsz  cnt2     
+002F   2???           00138     goto    Delay 
+0030   0008           00139     return
+Warning[205]: Found directive in column 1. (END)
+3F3A                  00140 END                       ; directive 'end of program'
+MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:52:51         PAGE  4
 
 
 SYMBOL TABLE
@@ -224,7 +232,7 @@ CHS1                              00000004
 CHS2                              00000005
 CIS                               00000003
 CKE                               00000006
-MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:37:34         PAGE  5
+MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:52:51         PAGE  5
 
 
 SYMBOL TABLE
@@ -252,7 +260,7 @@ DATA_ADDRESS                      00000005
 DC                                00000001
 D_A                               00000005
 D_NOT_A                           00000005
-Delay                             00000027
+Delay                             0000002C
 EEADR                             0000010D
 EEADRH                            0000010F
 EECON1                            0000018C
@@ -283,7 +291,7 @@ IRP                               00000007
 NOT_A                             00000005
 NOT_ADDRESS                       00000005
 NOT_BO                            00000000
-MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:37:34         PAGE  6
+MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:52:51         PAGE  6
 
 
 SYMBOL TABLE
@@ -342,7 +350,7 @@ RB7                               00000007
 RBIE                              00000003
 RBIF                              00000000
 RC0                               00000000
-MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:37:34         PAGE  7
+MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:52:51         PAGE  7
 
 
 SYMBOL TABLE
@@ -401,7 +409,7 @@ T1CKPS0                           00000004
 T1CKPS1                           00000005
 T1CON                             00000010
 T1INSYNC                          00000002
-MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:37:34         PAGE  8
+MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:52:51         PAGE  8
 
 
 SYMBOL TABLE
@@ -460,7 +468,7 @@ TX8_9                             00000006
 TX9                               00000006
 TX9D                              00000000
 TXD8                              00000000
-MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:37:34         PAGE  9
+MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:52:51         PAGE  9
 
 
 SYMBOL TABLE
@@ -478,8 +486,6 @@ WR                                00000001
 WREN                              00000002
 WRERR                             00000003
 Z                                 00000002
-_.org_1_0028                      00000028
-_.org_1_002A                      0000002A
 _BODEN_OFF                        00003FBF
 _BODEN_ON                         00003FFF
 _BOREN_OFF                        00003FBF
@@ -518,15 +524,17 @@ _WRT_HALF                         000039FF
 _WRT_OFF                          00003FFF
 _XT_OSC                           00003FFD
 __16F876A                         00000001
-d1                                00000000
-MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:37:34         PAGE 10
+cnt1                              00000020
+cnt2                              00000021
+d1                                00000022
+MPASM 5.75                   16F876ATEMP.ASM   11-5-2017  19:52:51         PAGE 10
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
-d2                                00000001
-d3                                00000002
+d2                                00000023
+d3                                00000024
 loop1                             0000001A
 main                              00000010
 pclath_temp                       0000007F
@@ -534,7 +542,7 @@ status_temp                       0000007E
 w_temp                            0000007D
 
 Errors   :     0
-Warnings :     2 reported,     0 suppressed
-Messages :     2 reported,     0 suppressed
+Warnings :     4 reported,     0 suppressed
+Messages :     3 reported,     0 suppressed
 
 
