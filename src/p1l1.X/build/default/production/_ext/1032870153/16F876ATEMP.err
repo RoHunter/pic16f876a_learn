@@ -1,0 +1,4 @@
+Message[302] C:\USERS\SILVIU\DESKTOP\P1L1\16F876ATEMP.ASM 87 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[313] C:\USERS\SILVIU\DESKTOP\P1L1\16F876ATEMP.ASM 88 : CBLOCK constants will start with a value of 0.
+Warning[203] C:\USERS\SILVIU\DESKTOP\P1L1\16F876ATEMP.ASM 120 : Found opcode in column 1. (goto)
+Warning[203] C:\USERS\SILVIU\DESKTOP\P1L1\16F876ATEMP.ASM 131 : Found opcode in column 1. (goto)
