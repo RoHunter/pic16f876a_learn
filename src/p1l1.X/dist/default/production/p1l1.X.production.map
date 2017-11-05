@@ -1,35 +1,43 @@
 MPLINK 5.08, LINKER
-Linker Map File - Created Mon Oct 23 17:15:55 2017
+Linker Map File - Created Sun Nov 05 19:33:02 2017
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
                 ---------  ---------  ---------  ---------  ---------
                    .org_0       code   0x000000    program   0x000004
                    .cinit    romdata   0x000002    program   0x000004
-                   .org_1       code   0x000004    program   0x00001a
-.config_2007_BUILD/DEFAULT/PRODUCTION/_EXT/14       code   0x002007    program   0x000002
+                   .org_1       code   0x000004    program   0x000054
+.config_2007_BUILD/DEFAULT/PRODUCTION/_EXT/10       code   0x002007    program   0x000002
 
 
 
                               Program Memory Usage 
                                Start         End      
                            ---------   ---------      
-                            0x000000    0x000010      
+                            0x000000    0x00002d      
                             0x002007    0x002007      
-            18 out of 8454 program addresses used, program memory utilization is 0%
+            47 out of 8454 program addresses used, program memory utilization is 0%
 
 
 
                               Symbols - Sorted by Name
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                     main   0x000010    program     static ..\16F876ATEMP.ASM       
+                    Delay   0x000028    program     static C:\Users\Silviu\Desktop\p1l1\16F876ATEMP.ASM
+             _.org_1_0029   0x000029    program     static C:\Users\Silviu\Desktop\p1l1\16F876ATEMP.ASM
+             _.org_1_002B   0x00002b    program     static C:\Users\Silviu\Desktop\p1l1\16F876ATEMP.ASM
+                    loop1   0x00001a    program     static C:\Users\Silviu\Desktop\p1l1\16F876ATEMP.ASM
+                     main   0x000010    program     static C:\Users\Silviu\Desktop\p1l1\16F876ATEMP.ASM
 
 
 
                               Symbols - Sorted by Address
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                     main   0x000010    program     static ..\16F876ATEMP.ASM       
+                     main   0x000010    program     static C:\Users\Silviu\Desktop\p1l1\16F876ATEMP.ASM
+                    loop1   0x00001a    program     static C:\Users\Silviu\Desktop\p1l1\16F876ATEMP.ASM
+                    Delay   0x000028    program     static C:\Users\Silviu\Desktop\p1l1\16F876ATEMP.ASM
+             _.org_1_0029   0x000029    program     static C:\Users\Silviu\Desktop\p1l1\16F876ATEMP.ASM
+             _.org_1_002B   0x00002b    program     static C:\Users\Silviu\Desktop\p1l1\16F876ATEMP.ASM
 
 
